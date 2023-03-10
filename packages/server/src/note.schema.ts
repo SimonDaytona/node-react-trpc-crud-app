@@ -15,6 +15,10 @@ export const params = z.object({
   noteId: z.string(),
 });
 
+export const typeConso = z.object({
+  type: z.string(),
+});
+
 export const updateNoteSchema = z.object({
   params,
   body: z
@@ -27,12 +31,23 @@ export const updateNoteSchema = z.object({
     .partial(),
 });
 
+export const getLastValueSchema = z.object({
+  typeConso,
+  body: z
+    .object({
+      typeConso: z.string()
+    })
+    .partial(),
+});
+
 export const filterQuery = z.object({
   limit: z.number().default(1),
   page: z.number().default(10),
 });
 
+export type TypeConsoInput = z.TypeOf<typeof typeConso>;
 export type ParamsInput = z.TypeOf<typeof params>;
 export type FilterQueryInput = z.TypeOf<typeof filterQuery>;
 export type CreateNoteInput = z.TypeOf<typeof createNoteSchema>;
 export type UpdateNoteInput = z.TypeOf<typeof updateNoteSchema>;
+export type getLastValueInput = z.TypeOf<typeof getLastValueSchema>;

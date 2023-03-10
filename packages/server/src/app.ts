@@ -9,6 +9,7 @@ import {
   filterQuery,
   params,
   updateNoteSchema,
+  typeConso,
 } from "./note.schema";
 import {
   createNoteController,
@@ -16,6 +17,7 @@ import {
   findAllNotesController,
   findNoteController,
   updateNoteController,
+  getLastValueController,
 } from "./note.controller";
 
 export const prisma = new PrismaClient();
@@ -42,6 +44,9 @@ const appRouter = t.router({
   getNotes: t.procedure
     .input(filterQuery)
     .query(({ input }) => findAllNotesController({ filterQuery: input })),
+  getLastValue: t.procedure
+    .input(typeConso)
+    .query(({ input }) => getLastValueController({ typeConsoInput: input })),
 });
 
 export type AppRouter = typeof appRouter;

@@ -6,6 +6,8 @@ import {
   FilterQueryInput,
   ParamsInput,
   UpdateNoteInput,
+  getLastValueInput,
+  TypeConsoInput,
 } from "./note.schema";
 
 export const createNoteController = async ({
@@ -37,6 +39,33 @@ export const createNoteController = async ({
           message: "Note with that title already exists",
         });
       }
+    }
+    throw error;
+  }
+};
+
+export const getLastValueController = async ({
+  typeConsoInput,
+}: {
+  typeConsoInput: TypeConsoInput;
+}) => {
+  try {
+    const lastValue = await prisma.note.findFirst({
+      where: { id: typeConsoInput.type },
+    });
+
+    return {
+      status: "success",
+      note: lastValue,
+    };
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // if (error.code === "P2025") {
+      //   throw new TRPCError({
+      //     code: "CONFLICT",
+      //     message: "Note with that title already exists",
+      //   });
+      // }
     }
     throw error;
   }
